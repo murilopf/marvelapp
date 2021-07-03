@@ -5,7 +5,6 @@ import theme from '../styles/theme';
 import Header from '../components/Header';
 import MainContainer from "../components/MainContainer";
 
-
 const Home: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
