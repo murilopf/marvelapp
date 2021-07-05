@@ -9,7 +9,7 @@
     "next/core-web-vitals",
     "plugin:react/recommended",
     "airbnb",
-    "prettier/react"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
