@@ -28,7 +28,7 @@ const getComics = async (offset: number) => {
   }
 }
 
-const getComicsByCharactersName = async (name: string, offset: number) => {
+const getComicsByCharactersName = async (name: string, characterOffset: number, offset: number) => {
   const publickey = process.env.PUBLIC_API_KEY;
   const privatekey = process.env.PRIVATE_API_KEY;
 
@@ -42,19 +42,33 @@ const getComicsByCharactersName = async (name: string, offset: number) => {
     apikey: publickey,
     hash: md5Hash,
     limit: 10,
-    offset: offset,
-    orderBy: 'name',
-    nameStartsWith: name
   }
 
-  const characterApi = await axios.get('https://gateway.marvel.com:443/v1/public/characters', { params })
+  var characterParams = Object.assign({}, params, {
+    orderBy: 'name',
+    nameStartsWith: name,
+    offset: characterOffset,
+  });
+
+  const characterApi = await axios.get('https://gateway.marvel.com:443/v1/public/characters', { params: characterParams })
   if (characterApi.status === 200) {
 
     let response
 
-    if (characterApi.data.data.result && characterApi.data.data.result.length > 0) {
-      response = await axios.get(characterApi.data.data.result.comics.collectionURI, { params })
-      console.log("Response::: " + response.data)
+    if (characterApi.data.data.results && characterApi.data.data.results.length > 0) {
+
+      Object.assign(params, {
+        orderBy: 'title',
+        offset: offset,
+      });
+
+      response = await axios.get(characterApi.data.data.results[0].comics.collectionURI, { params })
+
+      if (response.status === 200) {
+        return response.data
+      } else {
+        console.log('error')
+      }
     }
 
   } else {

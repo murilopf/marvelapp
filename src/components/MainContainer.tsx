@@ -1,25 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { Container, Grid, Box } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import Pagination from '@material-ui/lab/Pagination';
+import Alert from '@material-ui/lab/Alert';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import ComicCard from './ComicCard'
 import { getComics, getComicsByCharactersName } from '../services/api'
-import SearchField from "./SearchField";
+import ComicCard from './ComicCard'
+import SearchField from './SearchField';
+import SkeletonComicCard from './Skeletons/SkeletonComicCard';
+
+interface Thumbnail {
+  path: string;
+  extension: string;
+}
+
+interface Creator {
+  name: string;
+  role: string;
+}
+
+interface Creators {
+  collectionURI: string;
+  items: Creator[];
+}
+
+interface Comic {
+  id: number;
+  title: string;
+  description?: string | null;
+  creators: Creators;
+  thumbnail: Thumbnail;
+  pageCount: number
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      backgroundColor: '#f5f5f5'
+    },
+  }),
+);
 
 const MainContainer: React.FC = () => {
 
-  const [offset, setOffset] = useState(0)
-  const [comics, setComics] = useState([])
-  const [totalPages, setTotalPages] = useState(0)
-  const [page, setPage] = useState(1);
+  const classes = useStyles();
 
-  const [filter, setFilter] = useState(false);
+  const [offset, setOffset] = useState<number>(0)
+  const [comics, setComics] = useState<Comic[]>([])
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  const [filterValue, setFilterValue] = useState<string>('');
 
   useEffect(() => {
 
     async function getItems() {
       try {
-        if (!filter) {
+        setIsLoading(true)
+
+        if (!filterValue) {
 
           const result = await getComics(offset)
           // Set comics in state
@@ -29,30 +69,37 @@ const MainContainer: React.FC = () => {
           const pages = Math.round(parseInt(result.data.total) / 10)
           setTotalPages(pages)
 
+
         } else {
           // User decided to search by a character name
 
           // Reset page
-          setPage(1)
+          if (offset === 0)
+            setPage(1)
 
-          const result = await getComicsByCharactersName(name, 0)
+          const result = await getComicsByCharactersName(filterValue, 0, offset)
 
           // // Set comics in state
-          // setComics(result.data.results)
+          setComics(result.data.results)
 
           // // Set pages in state
-          // const pages = Math.round(parseInt(result.data.total) / 10)
-          // setTotalPages(pages)
+          const pages = Math.round(parseInt(result.data.total) / 10)
+          setTotalPages(pages)
 
         }
 
+        setIsLoading(false)
+
       } catch (error) {
-        console.log("Ocorreu um erro ao consultas os quadrinhos");
+        setComics([])
+        setTotalPages(0)
+        setPage(1)
+        setIsLoading(false)
       }
     }
     getItems();
 
-  }, [offset])
+  }, [offset, filterValue])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     if (value == 1)
@@ -60,46 +107,51 @@ const MainContainer: React.FC = () => {
     else
       setOffset(value * 10)
     setPage(value);
+    setIsLoading(true)
   };
 
-  if (comics.length === 0)
-    return (
-      <Container>
-        <h1>Nenhuma Comic disponível</h1>
-      </Container>
-    )
-
   return (
-    // <Container maxWidth={false}>
+    <div className={classes.container}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <SearchField
+            setFilterValue={setFilterValue}
+            setIsLoading={setIsLoading}
+          />
+        </Grid>
 
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <SearchField />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Grid container justify="center">
+        <Grid item xs={12}>
           {
-            comics.map((comic, index) => (
-              <Grid item key={comic.id}>
-                <ComicCard comic={comic} />
+            comics.length === 0 && !isLoading ?
+              <Grid container justify='center'>
+                <Alert severity="info">Não encontramos nenhuma comic com este nome 😭</Alert>
               </Grid>
-            ))
+              :
+              <Grid container justify="center">
+                {
+                  isLoading ?
+                    [...Array(10)].map((e, i) => <SkeletonComicCard key={i} />)
+                    :
+                    comics.map((comic, index) => (
+                      <Grid item key={comic.id}>
+                        <ComicCard comic={comic} />
+                      </Grid>
+                    ))
+                }
+              </Grid>
           }
         </Grid>
+
+        {
+          totalPages > 0 &&
+          <Grid item xs={12}>
+            <Box display="flex" justifyContent="center" m={2}>
+              <Pagination count={totalPages} page={page} onChange={handleChange} color="primary" />
+            </Box>
+          </Grid>
+        }
       </Grid>
-
-      {
-        totalPages > 0 &&
-        <Grid item xs={12}>
-          <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-            <Pagination count={totalPages} page={page} onChange={handleChange} color="primary" />
-          </Box>
-        </Grid>
-      }
-    </Grid>
-
-    // </Container>
+    </div>
   )
 }
 

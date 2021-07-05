@@ -11,11 +11,40 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-const DetailComic = (props) => {
+interface Thumbnail {
+  path: string;
+  extension: string;
+}
+
+interface Creator {
+  name: string;
+  role: string;
+}
+
+interface Creators {
+  collectionURI: string;
+  items: Creator[];
+}
+
+interface DetailComic {
+  id: number;
+  title: string;
+  description?: string | null;
+  creators: Creators;
+  thumbnail: Thumbnail;
+  pageCount: number
+}
+
+interface Props {
+  comic: DetailComic;
+  open: any;
+  setOpen: any;
+}
+
+const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
-  const { open, setOpen } = props
-  const { title, description, creators, thumbnail, pageCount } = props.comic
+  const { title, description, creators, thumbnail, pageCount } = comic
 
   const handleClose = () => {
     setOpen(false);
@@ -57,7 +86,7 @@ const DetailComic = (props) => {
                   Autores
                 </Typography>
                 {
-                  creators.items.map((creator: { name: string; role: string; }) => {
+                  creators.items.map((creator: Creator) => {
                     return (
                       <Typography variant="body2" gutterBottom key={creator.name}>
                         {creator.name + " - " + creator.role}

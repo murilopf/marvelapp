@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -11,6 +10,34 @@ import {
 } from '@material-ui/core';
 import DetailComic from './DetailComic'
 
+interface Thumbnail {
+  path: string;
+  extension: string;
+}
+
+interface Creator {
+  name: string;
+  role: string;
+}
+
+interface Creators {
+  collectionURI: string;
+  items: Creator[]
+}
+
+interface Comic {
+  id: number;
+  title: string;
+  description?: string | null;
+  creators: Creators,
+  thumbnail: Thumbnail,
+  pageCount: number
+}
+
+interface Props {
+  comic: Comic
+}
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
@@ -18,9 +45,9 @@ const useStyles = makeStyles({
   },
 });
 
-const ComicCard = (props: any) => {
+const ComicCard: React.FC<Props> = ({ comic }) => {
   const classes = useStyles();
-  const { id, title, description, creators, thumbnail, images } = props.comic
+  const { id, title, description, creators, thumbnail } = comic
 
   const [open, setOpen] = React.useState(false);
 
@@ -29,8 +56,7 @@ const ComicCard = (props: any) => {
   };
 
   return (
-    <Card className={classes.root}>
-      {/* <CardActionArea> */}
+    <Card className={classes.root} key={id}>
       <CardMedia
         component="img"
         alt="Comic image"
@@ -47,7 +73,7 @@ const ComicCard = (props: any) => {
         </Typography>
         {
           creators.items.length > 0 ?
-            creators.items.map((creator: { name: string; role: string; }) => {
+            creators.items.map((creator: Creator) => {
               return (
                 <Typography variant="body2" color="textSecondary" component="p" key={creator.name}>
                   {creator.name + " - " + creator.role}
@@ -57,14 +83,13 @@ const ComicCard = (props: any) => {
             : <></>
         }
       </CardContent>
-      {/* </CardActionArea> */}
       <CardActions>
-        <Button size="small" color="primary" onClick={handleClickOpen}>
+        <Button data-testid="seeMore" size="small" color="primary" onClick={handleClickOpen}>
           Ver mais sobre
         </Button>
 
         <DetailComic
-          comic={props.comic}
+          comic={comic}
           open={open}
           setOpen={(newValue: boolean) => setOpen(newValue)}
         />
