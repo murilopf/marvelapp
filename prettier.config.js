@@ -3,4 +3,5 @@ module.exports = {
   singleQuote: true,
   arrowParens: 'avoid',
   endOfLife: 'auto',
+  jsxSingleQuote: true,
 }

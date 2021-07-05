@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable @next/next/no-img-element */
+import React from 'react'
 import {
   Typography,
   Button,
@@ -7,120 +8,122 @@ import {
   DialogContent,
   DialogTitle,
   Box,
-  useMediaQuery
-} from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+  useMediaQuery,
+} from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 
 interface Thumbnail {
-  path: string;
-  extension: string;
+  path: string
+  extension: string
 }
 
 interface Creator {
-  name: string;
-  role: string;
+  name: string
+  role: string
 }
 
 interface Creators {
-  collectionURI: string;
-  items: Creator[];
+  collectionURI: string
+  items: Creator[]
 }
 
-interface DetailComic {
-  id: number;
-  title: string;
-  description?: string | null;
-  creators: Creators;
-  thumbnail: Thumbnail;
+interface IDetailComic {
+  id: number
+  title: string
+  description?: string | null
+  creators: Creators
+  thumbnail: Thumbnail
   pageCount: number
 }
 
 interface Props {
-  comic: DetailComic;
-  open: any;
-  setOpen: any;
+  comic: IDetailComic
+  open: any
+  setOpen: any
 }
 
 const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const { title, description, creators, thumbnail, pageCount } = comic
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
-    <div data-testid="detailComic">
+    <div data-testid='detailComic'>
       <Dialog
         open={open}
         onClose={handleClose}
-        scroll="paper"
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        scroll='paper'
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
         fullScreen={fullScreen}
       >
-        <DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
+        <DialogTitle id='scroll-dialog-title'>{title}</DialogTitle>
         <DialogContent dividers>
-
-          <Box display="flex" justifyContent="center">
-            <img src={`${thumbnail.path}/portrait_uncanny.${thumbnail.extension}`} alt="" />
+          <Box display='flex' justifyContent='center'>
+            <img
+              src={`${thumbnail.path}/portrait_uncanny.${thumbnail.extension}`}
+              alt=''
+            />
           </Box>
 
-          {
-            description ?
-              <>
-                <Typography variant="h6" gutterBottom>
-                  Descrição
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {description}
-                </Typography>
-              </>
-              : <></>
-          }
-          {
-            creators.items.length > 0 ?
-              <>
-                <Typography variant="h6" gutterBottom>
-                  Autores
-                </Typography>
-                {
-                  creators.items.map((creator: Creator) => {
-                    return (
-                      <Typography variant="body2" gutterBottom key={creator.name}>
-                        {creator.name + " - " + creator.role}
-                      </Typography>
-                    )
-                  })
-                }
-              </>
-              : <></>
-          }
+          {description ? (
+            <>
+              <Typography variant='h6' gutterBottom>
+                Descrição
+              </Typography>
+              <Typography variant='body2' gutterBottom>
+                {description}
+              </Typography>
+            </>
+          ) : (
+            <></>
+          )}
 
-          {
-            pageCount ?
-              <>
-                <Typography variant="h6" gutterBottom>
-                  Número de páginas
+          {creators.items.length > 0 ? (
+            <>
+              <Typography variant='h6' gutterBottom>
+                Autores
+              </Typography>
+              {creators.items.map((creator: Creator) => (
+                <Typography variant='body2' gutterBottom key={creator.name}>
+                  {`${creator.name} - ${creator.role}`}
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {pageCount}
-                </Typography>
-              </>
-              : <></>
-          }
+              ))}
+            </>
+          ) : (
+            <></>
+          )}
 
+          {pageCount ? (
+            <>
+              <Typography variant='h6' gutterBottom>
+                Número de páginas
+              </Typography>
+              <Typography variant='body2' gutterBottom>
+                {pageCount}
+              </Typography>
+            </>
+          ) : (
+            <></>
+          )}
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary" data-testid="backButton">
+          <Button
+            onClick={handleClose}
+            color='primary'
+            data-testid='backButton'
+          >
             Voltar
           </Button>
         </DialogActions>
       </Dialog>
     </div>
-  );
+  )
 }
 
 export default DetailComic

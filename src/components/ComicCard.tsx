@@ -1,36 +1,36 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   Card,
   CardActions,
   CardContent,
   CardMedia,
   Button,
-  Typography
-} from '@material-ui/core';
+  Typography,
+} from '@material-ui/core'
 import DetailComic from './DetailComic'
 
 interface Thumbnail {
-  path: string;
-  extension: string;
+  path: string
+  extension: string
 }
 
 interface Creator {
-  name: string;
-  role: string;
+  name: string
+  role: string
 }
 
 interface Creators {
-  collectionURI: string;
+  collectionURI: string
   items: Creator[]
 }
 
 interface Comic {
-  id: number;
-  title: string;
-  description?: string | null;
-  creators: Creators,
-  thumbnail: Thumbnail,
+  id: number
+  title: string
+  description?: string | null
+  creators: Creators
+  thumbnail: Thumbnail
   pageCount: number
 }
 
@@ -41,50 +41,54 @@ interface Props {
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
-    margin: '16px'
+    margin: '16px',
   },
-});
+})
 
 const ComicCard: React.FC<Props> = ({ comic }) => {
-  const classes = useStyles();
-  const { id, title, description, creators, thumbnail } = comic
+  const classes = useStyles()
+  const { id, title, creators, thumbnail } = comic
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   return (
-    <Card className={classes.root} key={id} data-testid="comicCard">
+    <Card className={classes.root} key={id} data-testid='comicCard'>
       <CardMedia
-        component="img"
-        alt="Comic image"
+        component='img'
+        alt='Comic image'
         image={`${thumbnail.path}/portrait_uncanny.${thumbnail.extension}`}
-        title="Comic image"
+        title='Comic image'
       />
       <CardContent>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-        >
+        <Typography gutterBottom variant='h5' component='h2'>
           {title}
         </Typography>
-        {
-          creators.items.length > 0 ?
-            creators.items.map((creator: Creator) => {
-              return (
-                <Typography variant="body2" color="textSecondary" component="p" key={creator.name}>
-                  {creator.name + " - " + creator.role}
-                </Typography>
-              )
-            })
-            : <></>
-        }
+        {creators.items.length > 0 ? (
+          creators.items.map((creator: Creator) => (
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='p'
+              key={creator.name}
+            >
+              {`${creator.name} - ${creator.role}`}
+            </Typography>
+          ))
+        ) : (
+          <></>
+        )}
       </CardContent>
       <CardActions>
-        <Button data-testid="seeMore" size="small" color="primary" onClick={handleClickOpen}>
+        <Button
+          data-testid='seeMore'
+          size='small'
+          color='primary'
+          onClick={handleClickOpen}
+        >
           Ver mais sobre
         </Button>
 
@@ -95,7 +99,7 @@ const ComicCard: React.FC<Props> = ({ comic }) => {
         />
       </CardActions>
     </Card>
-  );
+  )
 }
 
 export default ComicCard
