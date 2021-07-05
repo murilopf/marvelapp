@@ -9,7 +9,6 @@
     "next/core-web-vitals",
     "plugin:react/recommended",
     "airbnb",
-    "prettier/@typescript-eslint",
     "prettier/@airbnb",
     "prettier/react"
   ],
