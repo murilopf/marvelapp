@@ -61,7 +61,12 @@ const MainContainer: React.FC = () => {
         if (!filterValue) {
           const result = await getComics(offset)
           // Set comics in state
-          if (result && result.length > 0) {
+          if (
+            result &&
+            result.data &&
+            result.data.results &&
+            result.data.results.length > 0
+          ) {
             setComics(result.data.results)
 
             // Set pages in state
@@ -78,7 +83,12 @@ const MainContainer: React.FC = () => {
           if (offset === 0) setPage(1)
 
           const result = await getComicsByCharactersName(filterValue, 0, offset)
-          if (result && result.length > 0) {
+          if (
+            result &&
+            result.data &&
+            result.data.results &&
+            result.data.results.length > 0
+          ) {
             // // Set comics in state
             setComics(result.data.results)
 
