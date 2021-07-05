@@ -2,22 +2,22 @@ import React from 'react';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
-interface SnackBar {
+interface ISnackbar {
   title: string;
   severity: "success" | "error" | "warning" | "info"
 }
 
 interface Props {
   open: boolean;
-  snackBar: SnackBar,
-  resetSnackBar(): any
+  snackBar: ISnackbar,
+  resetSnackbar(): any
 }
 
 const Alert = (props: AlertProps) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SnackBar: React.FC<Props> = ({ snackBar, open, resetSnackBar }) => {
+const CSnackbar: React.FC<Props> = ({ snackBar, open, resetSnackbar }) => {
 
   const { title, severity } = snackBar
 
@@ -25,21 +25,21 @@ const SnackBar: React.FC<Props> = ({ snackBar, open, resetSnackBar }) => {
     if (reason === 'clickaway') {
       return;
     }
-    resetSnackBar()
+    resetSnackbar()
   };
 
   return (
-    <div>
+    <div data-testid="snackbar">
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
         }}
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity={severity}>
+        <Alert onClose={handleClose} severity={severity} data-testid="alertSnackbar">
           {title}
         </Alert>
       </Snackbar>
@@ -47,4 +47,4 @@ const SnackBar: React.FC<Props> = ({ snackBar, open, resetSnackBar }) => {
   );
 }
 
-export default SnackBar
+export default CSnackbar

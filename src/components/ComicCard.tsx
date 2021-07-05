@@ -56,7 +56,7 @@ const ComicCard: React.FC<Props> = ({ comic }) => {
   };
 
   return (
-    <Card className={classes.root} key={id}>
+    <Card className={classes.root} key={id} data-testid="comicCard">
       <CardMedia
         component="img"
         alt="Comic image"

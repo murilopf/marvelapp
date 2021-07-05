@@ -22,7 +22,7 @@ const Header: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" color="secondary" data-testid="appbar">
         <Toolbar>
           <Typography variant="h5" className={classes.title} color="inherit">
             Dextra 🤝 Marvel Comics

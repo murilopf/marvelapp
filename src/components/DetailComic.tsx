@@ -51,7 +51,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
   };
 
   return (
-    <div>
+    <div data-testid="detailComic">
       <Dialog
         open={open}
         onClose={handleClose}
@@ -114,7 +114,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" data-testid="backButton">
             Voltar
           </Button>
         </DialogActions>

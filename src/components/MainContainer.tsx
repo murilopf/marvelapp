@@ -107,16 +107,14 @@ const MainContainer: React.FC = () => {
     else
       setOffset(value * 10)
     setPage(value);
-    setIsLoading(true)
   };
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} data-testid="mainContainer">
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <SearchField
             setFilterValue={setFilterValue}
-            setIsLoading={setIsLoading}
           />
         </Grid>
 

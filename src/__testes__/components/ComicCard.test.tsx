@@ -24,18 +24,25 @@ const comic = {
   pageCount: 35
 }
 
-describe("Testing ComicCard.tsx", () => {
+describe("<ComicCard />", () => {
 
-  it('should render Header', () => {
-    // render(<ComicCard comic={comic} />);
+  it('should render ComicCard', () => {
+    render(<ComicCard comic={comic} />);
 
-    // const buttonSeeMore = screen.getByTestId("seeMore");
-    // fireEvent.click(buttonSeeMore)
-
-    // // screen.logTestingPlaygroundURL()
-
-    // expect(screen.getByText(/Dextra 🤝 Marvel Comics/i)).toBeInTheDocument();
+    expect(screen.getByTestId('comicCard')).toBeInTheDocument();
   });
+
+  describe('Detail button', () => {
+    it('should trigger handleClickOpen', () => {
+
+      render(<ComicCard comic={comic} />)
+      const btnSeeMore = screen.getByTestId('seeMore')
+
+      fireEvent.click(btnSeeMore)
+      expect(screen.getByTestId('detailComic')).toBeInTheDocument()
+
+    })
+  })
 
 })
 

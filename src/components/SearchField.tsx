@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
 import { InputBase, Box, Typography, Grid, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import SnackBar from './SnackBar';
+import Snackbar from './Snackbar';
 
 interface Props {
   setFilterValue: any;
-  setIsLoading: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const SearchField: React.FC<Props> = ({ setFilterValue, setIsLoading }) => {
+const SearchField: React.FC<Props> = ({ setFilterValue }) => {
   const classes = useStyles();
   const [name, setName] = useState<string>('');
 
@@ -66,13 +65,12 @@ const SearchField: React.FC<Props> = ({ setFilterValue, setIsLoading }) => {
     }
   }
 
-  const handleResetSnackBar = () => {
+  const handleResetSnackbar = () => {
     setOpenSnackbar(false)
     setMessageSnackbar('')
   }
 
   const handleClearFilter = () => {
-    setIsLoading(true)
     setFilterValue('')
     setName('')
   }
@@ -84,10 +82,10 @@ const SearchField: React.FC<Props> = ({ setFilterValue, setIsLoading }) => {
       justify="center"
       alignItems="center"
     >
-      <SnackBar
+      <Snackbar
         snackBar={{ title: messageSnackbar, severity: severitySnackbar }}
         open={openSnackbar}
-        resetSnackBar={handleResetSnackBar}
+        resetSnackbar={handleResetSnackbar}
       />
       <Grid item xs={12}>
         <Box m={2}>
@@ -123,7 +121,7 @@ const SearchField: React.FC<Props> = ({ setFilterValue, setIsLoading }) => {
 
           <Grid item xs={12}>
             <Box display="flex" justifyContent="space-evenly">
-              <Button variant='contained' color='secondary' onClick={handleSearchComicByName} className={classes.button} data-testid="find">
+              <Button variant='contained' color='secondary' onClick={handleSearchComicByName} className={classes.button} data-testid="search">
                 Procurar
               </Button>
 

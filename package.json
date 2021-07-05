@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "coverage": "jest --coverage"
+    "test": "jest"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
