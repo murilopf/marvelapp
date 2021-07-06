@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ComicCard: React.FC<Props> = ({ comic }) => {
   const classes = useStyles()
-  const { id, title, creators, thumbnail } = comic
+  const { id, title, thumbnail } = comic
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 

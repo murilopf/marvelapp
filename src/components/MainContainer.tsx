@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react'
-import { Grid, Box } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination'
 import Alert from '@material-ui/lab/Alert'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
