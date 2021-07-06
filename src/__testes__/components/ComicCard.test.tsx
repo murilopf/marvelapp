@@ -22,6 +22,12 @@ const comic = {
     path: 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available',
     extension: 'jpg',
   },
+  images: [
+    {
+      path: 'http://i.annihil.us/u/prod/marvel/i/mg/8/a0/603d5b82a5bc0',
+      extension: 'jpg',
+    },
+  ],
   pageCount: 35,
 }
 

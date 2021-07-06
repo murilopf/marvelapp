@@ -69,10 +69,11 @@ const getComicsByCharactersName = async (
         offset,
       })
 
-      response = await axios.get(
-        characterApi.data.data.results[0].comics.collectionURI,
-        { params }
-      )
+      let apiUrl = characterApi.data.data.results[0].comics.collectionURI
+
+      apiUrl = apiUrl.replace(/^http:\/\//i, 'https://')
+
+      response = await axios.get(apiUrl, { params })
 
       if (response.status === 200) {
         return response.data

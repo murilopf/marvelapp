@@ -36,9 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       width: '100%',
     },
-
     button: {
       alignContent: 'center',
+    },
+    infoTitle: {
+      fontFamily: `Roboto Condensed, sans-serif`,
     },
   })
 )
@@ -88,7 +90,7 @@ const SearchField: React.FC<Props> = ({ setFilterValue }) => {
       />
       <Grid item xs={12}>
         <Box m={2}>
-          <Typography variant='h5' gutterBottom>
+          <Typography variant='h5' gutterBottom className={classes.infoTitle}>
             Procure seu personagem favorito ou navegue pelas páginas
           </Typography>
         </Box>

@@ -70,7 +70,7 @@ const MainContainer: React.FC = () => {
             setComics(result.data.results)
 
             // Set pages in state
-            const pages = Math.round(parseInt(result.data.total, 10) / 10)
+            const pages = Math.round(parseInt(result.data.total, 10) / 10) - 1
             setTotalPages(pages)
           } else {
             setComics([])
@@ -93,7 +93,7 @@ const MainContainer: React.FC = () => {
             setComics(result.data.results)
 
             // // Set pages in state
-            const pages = Math.round(parseInt(result.data.total, 10) / 10)
+            const pages = Math.round(parseInt(result.data.total, 10) / 10) - 1
             setTotalPages(pages)
           } else {
             setComics([])
