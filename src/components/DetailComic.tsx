@@ -207,7 +207,6 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
                   <Typography variant='body2' gutterBottom>
                     {pageCount}
                   </Typography>
-                  <Divider className={classes.divider} />
                 </Grid>
               ) : (
                 <></>
@@ -217,6 +216,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
             {images && images.length > 1 ? (
               <Grid container spacing={1}>
                 <Grid item sm={12} xs={12}>
+                  <Divider className={classes.divider} />
                   <Typography
                     variant='h6'
                     gutterBottom

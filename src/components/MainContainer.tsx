@@ -126,6 +126,7 @@ const MainContainer: React.FC = () => {
   }, [offset, filterValue])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setIsLoading(true)
     if (value === 1) setOffset(0)
     else setOffset(value * 10)
     setPage(value)
