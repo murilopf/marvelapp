@@ -60,12 +60,22 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     cardTitle: {
+      display: 'flex',
+      alignItems: 'center',
       fontFamily: `Roboto Condensed, sans-serif`,
+      [theme.breakpoints.up('sm')]: {
+        minHeight: '100px',
+      },
     },
     btnSeeMore: {
       margin: theme.spacing(2),
     },
-    divCreators: {},
+    divCreators: {
+      maxHeight: '150px',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
   })
 )
 
@@ -83,7 +93,7 @@ const ComicCard: React.FC<Props> = ({ comic }) => {
 
   return (
     <Card className={classes.root} key={id} data-testid='comicCard'>
-      <CardActionArea onClick={handleClickOpen}>
+      <CardActionArea onClick={handleClickOpen} data-testid='seeMore'>
         <CardMedia
           component='img'
           alt='Comic image'
@@ -99,7 +109,7 @@ const ComicCard: React.FC<Props> = ({ comic }) => {
           >
             {title}
           </Typography>
-          <div className={classes.divCreators}>
+          {/* <div className={classes.divCreators}>
             {creators.items.length > 0 ? (
               creators.items.map((creator: Creator) => (
                 <Typography
@@ -114,13 +124,12 @@ const ComicCard: React.FC<Props> = ({ comic }) => {
             ) : (
               <></>
             )}
-          </div>
+          </div> */}
         </CardContent>
 
         {/* <CardActions> */}
         {isMobile ? (
           <Button
-            data-testid='seeMore'
             size='small'
             color='primary'
             onClick={handleClickOpen}

@@ -15,6 +15,11 @@ interface Thumbnail {
   extension: string
 }
 
+interface Image {
+  path: string
+  extension: string
+}
+
 interface Creator {
   name: string
   role: string
@@ -32,12 +37,20 @@ interface Comic {
   creators: Creators
   thumbnail: Thumbnail
   pageCount: number
+  images: Image[]
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
     container: {
       backgroundColor: '#f5f5f5',
+      overflowX: 'hidden',
+    },
+    pagination: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '16px 8px 16px 8px',
     },
   })
 )
@@ -120,7 +133,7 @@ const MainContainer: React.FC = () => {
 
   return (
     <div className={classes.container} data-testid='mainContainer'>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item xs={12}>
           <SearchField setFilterValue={setFilterValue} />
         </Grid>
@@ -147,14 +160,15 @@ const MainContainer: React.FC = () => {
 
         {totalPages > 0 && (
           <Grid item xs={12}>
-            <Box display='flex' justifyContent='center' m={2}>
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={handleChange}
-                color='primary'
-              />
-            </Box>
+            {/* <Box display='flex' justifyContent='center' m={2}> */}
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handleChange}
+              color='primary'
+              className={classes.pagination}
+            />
+            {/* </Box> */}
           </Grid>
         )}
       </Grid>

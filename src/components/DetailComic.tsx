@@ -123,6 +123,12 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
     setImageToZoom(image)
   }
 
+  const htmlDecode = (input: string) => {
+    const e = document.createElement('div')
+    e.innerHTML = input
+    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
+  }
+
   return (
     <div data-testid='detailComic'>
       <Dialog
@@ -135,7 +141,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
         scroll='paper'
       >
         <DialogContent dividers>
-          <Grid container sm xs alignItems='center'>
+          <Grid container>
             <Grid item sm={5} xs={12}>
               <img
                 src={`${thumbnail.path}/portrait_uncanny.${thumbnail.extension}`}
@@ -143,7 +149,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
               />
             </Grid>
 
-            <Grid container sm={7} xs={12}>
+            <Grid container item sm={7} xs={12}>
               <Grid item sm={12} xs={12}>
                 <Typography gutterBottom className={classes.mainTitle}>
                   {title}
@@ -159,8 +165,9 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
                   >
                     Descrição
                   </Typography>
+
                   <Typography variant='body2' gutterBottom>
-                    {description}
+                    {htmlDecode(description)}
                   </Typography>
                   <Divider className={classes.divider} />
                 </Grid>
@@ -200,6 +207,7 @@ const DetailComic: React.FC<Props> = ({ open, setOpen, comic }) => {
                   <Typography variant='body2' gutterBottom>
                     {pageCount}
                   </Typography>
+                  <Divider className={classes.divider} />
                 </Grid>
               ) : (
                 <></>
